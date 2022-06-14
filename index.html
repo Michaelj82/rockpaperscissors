@@ -4,9 +4,154 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <link rel="stylesheet" href="./style.css">
+    <title>Rock Paper Scissors</title>
 </head>
 <body>
-    
+    <div id="header">
+        Rock, Paper, Scissors!
+
+    </div>
+    <div id="game">
+
+        <div id="game_images">
+            <img id="player" src="./images/questionmark.png">
+            <img id="computer" src="./images/questionmark.png">
+        </div>
+        
+        <div id="playerNames">
+            <div class="name">Player</div>
+            <div class="name">Computer</div>
+        </div>
+
+        
+
+        <div id="buttons">
+            <button onclick="playRound('rock')">Rock</button>
+            <button onclick="playRound('paper')">Paper</button>
+            <button onclick="playRound('scissors')">Scissors</button>
+
+        </div>
+
+
+
+    </div>
+    <div class="description">
+        <span>You know the rules, click one of the buttons for your choice!</span>
+
+    </div>
+    <script>
+        const gameContainer = document.querySelector('#game');
+
+
+        const content = document.createElement('div');
+        content.classList.add('result');
+        gameContainer.appendChild(content)
+
+        const resultBox = document.createElement('div');
+        resultBox.classList.add('result');
+        gameContainer.appendChild(resultBox);
+
+
+
+        let playerImage = document.getElementById('player');
+        let computerImage = document.getElementById('computer');
+
+
+        let choices = ["rock", "paper", "scissors"]
+        
+
+        let playerResults = 0
+
+        let computerResults = 0
+
+        function computerPlay(options){
+            let num = Math.floor(Math.random() * options.length);
+            let chosen = options[num];
+
+            return(chosen)
+
+        }
+
+        function playRound(played){
+            resultBox.textContent = ''
+            content.textContent = ''
+
+
+
+            let computerChoice = computerPlay(choices);
+            let playerChoice = played;
+            let playerResult = NaN
+            let gameSummary = "You played " + played + " and the computer played " + computerChoice + "."
+
+            if (playerChoice == 'rock'){
+                if (computerChoice == 'rock'){
+                    playerResult = 'draw'
+
+                }else if (computerChoice == 'scissors'){
+                    playerResult = 'win'
+                    playerResults++
+
+
+                }else if (computerChoice == 'paper'){
+                    playerResult = 'lost'
+                    computerResults++
+
+                }
+            }else if (playerChoice == 'paper'){
+                if (computerChoice == 'rock'){
+                    playerResult = 'win'
+
+                    playerResults++
+
+
+                }else if (computerChoice == 'paper'){
+                    playerResult = 'draw'
+                    
+                }else if (computerChoice == 'scissors'){
+                    playerResult = 'lost'
+                    computerResults++
+
+                }
+            }else if (playerChoice == 'scissors'){
+                if (computerChoice == 'rock'){
+                    playerResult = 'lost'
+                    computerResults++
+
+                }else if (computerChoice == 'paper'){
+                    playerResult = 'win'
+
+                    playerResults++
+
+                }else if (computerChoice == 'scissors'){
+                    playerResult = 'draw'
+
+                }
+            }
+
+            playerImage.src = `./images/${playerChoice}.png`;
+            computerImage.src = `./images/${computerChoice}.png`;
+            content.textContent = gameSummary + " You " + playerResult + " that round!!!";
+
+            
+            if (playerResults >= 3){
+                resultBox.textContent = `You won ${playerResults} out of a first to 3, therefore, you win! Click another choice to play again!`
+
+                playerResults = 0
+                computerResults = 0
+                
+            }else if (computerResults >= 3){
+                 resultBox.textContent = `You won ${playerResults} out of a first to 3, therefore, you lose! Click another choice to play again!`
+                 playerResults = 0
+                 computerResults = 0
+
+            }   
+            
+        }
+        
+
+
+
+    </script>
 </body>
 </html>
